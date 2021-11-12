@@ -25,9 +25,11 @@ public:
     void Tick();
     bool isActivated() {return isActive;}
     void Draw();
+    bool isHovered();
     void LoadIdleTexture(Texture2D Idle) {this->Idle = Idle;}
     void LoadActiveTexture(Texture2D Active) {this->Active = Active;}
     void SetScreenPos(int x, int y);
+    Vector2 GetScreenPos() {return ScreenPos;} // use to define mouse click area
 };
 
 #endif

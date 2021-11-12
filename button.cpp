@@ -23,9 +23,16 @@ Button::~Button()
 
 void Button::Tick()
 {
-    if (IsKeyDown(KEY_A)) {isActive = true;}
-    else {isActive = false;}
-
+    if (isHovered()) 
+    {
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {isActive = true;}
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {isActive = false;}
+    }
+    else 
+    {
+        isActive = false;
+    }
+        
     if (IsWindowResized())
     {
         ScreenPos.x = WinSize->x * ScreenMultiplier.x;
@@ -37,10 +44,29 @@ void Button::Draw()
 {
     if (isActive)
     {
-        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, DARKBLUE);
+        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, WHITE);
+    }
+    else if (isHovered())
+    {
+        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, DARKGRAY);
     }
     else 
     {
-        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, RED);
+        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, BLUE);
+    }
+}
+
+bool Button::isHovered()
+{
+    if ((GetMousePosition().x >= ScreenPos.x) && 
+        (GetMousePosition().x <= ScreenPos.x + Outline.width) &&
+        (GetMousePosition().y >= ScreenPos.y) &&
+        (GetMousePosition().y <= ScreenPos.y + Outline.height))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
