@@ -14,6 +14,7 @@ private:
     Texture2D Idle{};
     Texture2D Active{};
     bool isActive{false};
+    bool isPressed{false};
 
 public:
     Button(Window& WinDimensions,

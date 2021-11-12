@@ -25,12 +25,15 @@ void Button::Tick()
 {
     if (isHovered()) 
     {
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {isActive = true;}
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {isActive = false;}
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) 
+        {
+            isPressed = true; 
+            isActive = -isActive;}
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {isPressed = false;}
     }
     else 
     {
-        isActive = false;
+        isPressed = false;
     }
         
     if (IsWindowResized())
@@ -42,9 +45,13 @@ void Button::Tick()
 
 void Button::Draw()
 {
-    if (isActive)
+    if (isPressed)
     {
         DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, WHITE);
+        if (isActivated())
+        {
+            DrawText(TextFormat("Button: \"I am active\" \n"), 20, 20, 20, WHITE);
+        }
     }
     else if (isHovered())
     {
