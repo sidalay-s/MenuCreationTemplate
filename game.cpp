@@ -12,10 +12,13 @@ void Game::Run()
     Game::Initialize(Window, FPS, "Template");      // Create Window
 
     // create buttons and store in an array
-    Button ButtonOne{Window};
+    Button ButtonOne{Window, Vector2{.5f, .5f}, Rectangle{0.f,0.f,160.f,160.f},
+                     LoadTexture("images/poopdragon-0.png"),
+                     LoadTexture("images/poopdragon-2.png"),
+                     LoadTexture("images/poopdragon-3.png")};
     std::array<Button*, 1> MainMenu {&ButtonOne};
-
     std::array<std::array<Button*, 1>, 1> Buttons{MainMenu};
+
 
     // Start Game Loop
     while (!WindowShouldClose()) 

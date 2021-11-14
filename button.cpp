@@ -55,15 +55,18 @@ void Button::Draw()
     // Change button color/texture based on state.
     if (isPressed)
     {
-        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, WHITE);
+        // DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, WHITE);
+        DrawTexture(Active, ScreenPos.x, ScreenPos.y, WHITE);
     }
     else if (isHovered())
     {
-        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, DARKGRAY);
+        // DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, DARKGRAY);
+        DrawTexture(Hovered, ScreenPos.x, ScreenPos.y, WHITE);
     }
     else 
     {
-        DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, BLUE);
+        // DrawRectangle(ScreenPos.x, ScreenPos.y, Outline.width, Outline.height, BLUE);
+        DrawTexture(Idle, ScreenPos.x, ScreenPos.y, WHITE);
     }
 }
 
