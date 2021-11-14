@@ -16,8 +16,12 @@ void Game::Run()
                      LoadTexture("images/poopdragon-0.png"),
                      LoadTexture("images/poopdragon-2.png"),
                      LoadTexture("images/poopdragon-3.png")};
-    std::array<Button*, 1> MainMenu {&ButtonOne};
-    std::array<std::array<Button*, 1>, 1> Buttons{MainMenu};
+    Button ButtonTwo{Window, Vector2{.3f, .8f}, Rectangle{0.f,0.f,160.f,160.f},
+                     LoadTexture("images/poopdragon-0.png"),
+                     LoadTexture("images/poopdragon-2.png"),
+                     LoadTexture("images/poopdragon-3.png")};
+    std::array<Button*, 2> MainMenu {&ButtonOne, &ButtonTwo};
+    std::array<std::array<Button*, 2>, 1> Buttons{MainMenu};
 
 
     // Start Game Loop
@@ -41,7 +45,7 @@ void Game::Initialize(Window& Window, int FPS, std::string Title)
     SetTargetFPS(144);
 }
 
-void Game::Tick(Window& Window, std::array<std::array<Button*, 1>, 1>& Buttons)
+void Game::Tick(Window& Window, std::array<std::array<Button*, 2>, 1>& Buttons)
 {
     // Check if Window has been resized or fullscreened
     Game::CheckScreenSizing(Window);
@@ -92,7 +96,7 @@ void Game::SetFullScreen(Window& Window)
 }
 
 template <typename T>
-void Game::Update(std::array<std::array<T*, 1>, 1>& Container)
+void Game::Update(std::array<std::array<T*, 2>, 1>& Container)
 {
     for (auto Set:Container) 
         for (auto Element:Set)
@@ -101,7 +105,7 @@ void Game::Update(std::array<std::array<T*, 1>, 1>& Container)
         }
 }
 
-void Game::Draw(std::array<std::array<Button*, 1>, 1>& Buttons)
+void Game::Draw(std::array<std::array<Button*, 2>, 1>& Buttons)
 {
     for (auto Set:Buttons)
         for (auto Button:Set)
