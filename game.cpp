@@ -1,30 +1,26 @@
 #include "game.hpp"
 #include <assert.h>
 #include <array>
+#include <vector>
 
 void Game::Run() 
 {
 
     // Initialization ---------------------------
-    Window Window {1280, 720};                      // Window Dimensins
+    Window Window {1280, 720};                      // Window Dimensions
     int FPS {144};                                  // Frames Per Second
     Game::Initialize(Window, FPS, "Template");      // Create Window
 
     // create buttons and store in an array
     Button ButtonOne{Window};
-    std::array<Button*, 1> Buttons {&ButtonOne};
+    std::array<Button*, 1> MainMenu {&ButtonOne};
+
+    std::array<std::array<Button*, 1>, 1> Buttons{MainMenu};
 
     // Start Game Loop
-    while (!GameShouldClose()) 
+    while (!WindowShouldClose()) 
     {
-        Game::Tick(Window);
-        Game::Update();
-
-        for (auto Button:Buttons)
-        {
-            Button->Tick();
-            Button->Draw();
-        }
+        Game::Tick(Window, Buttons);
     }
 
     // Clean-up
@@ -32,7 +28,8 @@ void Game::Run()
     CloseWindow();
 }
 
-void Game::Initialize(Window Window, int FPS, std::string Title)
+// Set the Game's window configurations
+void Game::Initialize(Window& Window, int FPS, std::string Title)
 {
     assert(!GetWindowHandle());
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
@@ -41,34 +38,19 @@ void Game::Initialize(Window Window, int FPS, std::string Title)
     SetTargetFPS(144);
 }
 
-bool Game::GameShouldClose()
-{
-    return WindowShouldClose();
-}
-
-void Game::Tick(Window& Window)
+void Game::Tick(Window& Window, std::array<std::array<Button*, 1>, 1>& Buttons)
 {
     // Check if Window has been resized or fullscreened
     Game::CheckScreenSizing(Window);
 
     // Begin Drawing
     BeginDrawing();
-    Update();
-    Draw();
+    ClearBackground(BLACK);
+    Game::Update(Buttons);
+    Game::Draw(Buttons);
 
     // End Drawing
     EndDrawing();
-}
-
-void Game::Update()
-{
-
-}
-
-void Game::Draw()
-{
-
-    ClearBackground(BLACK);
 }
 
 void Game::CheckScreenSizing(Window& Window)
@@ -105,3 +87,31 @@ void Game::SetFullScreen(Window& Window)
         ToggleFullscreen();
     }
 }
+
+template <typename T>
+void Game::Update(std::array<std::array<T*, 1>, 1>& Container)
+{
+    for (auto Set:Container) 
+        for (auto Element:Set)
+        {
+            Element->Tick();
+        }
+}
+
+void Game::Draw(std::array<std::array<Button*, 1>, 1>& Buttons)
+{
+    for (auto Set:Buttons)
+        for (auto Button:Set)
+        {
+            Button->Draw();
+            if (Button->isActivated())
+            {
+                DrawText(TextFormat("Button: \"I am active\" \n"), 20, 20, 20, WHITE);
+            }
+            else
+            {
+                DrawText(TextFormat("Button: \"I am inactive\" \n"), 20, 20, 20, WHITE);
+            }
+        }
+}
+
