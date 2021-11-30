@@ -16,12 +16,12 @@ namespace Game
 {
     void Run();
     void Initialize(Window& Window, int FPS, std::string Title);
-    void Tick(Window& Window, std::array<std::array<Button*, 2>, 1>& Buttons);
+    void Tick(Window& Window, std::array<std::array<Button*, 3>, 1>& Buttons);
     void CheckScreenSizing(Window& Window);
     void SetFullScreen(Window& Window);
     template <typename T>
-    void Update(std::array<std::array<T*, 2>, 1>& Container);
-    void Draw(std::array<std::array<Button*, 2>, 1>& Buttons);
+    void Update(std::array<std::array<T*, 3>, 1>& Container);
+    void Draw(std::array<std::array<Button*, 3>, 1>& Buttons);
 }
 
 #endif

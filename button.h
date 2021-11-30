@@ -3,6 +3,7 @@
 
 #include <raylib.h>
 #include "window.hpp"
+#include "textures.hpp"
 
 class Button 
 {

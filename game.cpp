@@ -20,8 +20,18 @@ void Game::Run()
                      LoadTexture("images/poopdragon-0.png"),
                      LoadTexture("images/poopdragon-2.png"),
                      LoadTexture("images/poopdragon-3.png")};
-    std::array<Button*, 2> MainMenu {&ButtonOne, &ButtonTwo};
-    std::array<std::array<Button*, 2>, 1> Buttons{MainMenu};
+    Button ButtonThree{Window, Vector2{.7f, .8f}, Rectangle{0.f,0.f,160.f,160.f},
+                     LoadTexture("images/poopdragon-0.png"),
+                     LoadTexture("images/poopdragon-2.png"),
+                     LoadTexture("images/poopdragon-3.png")};
+
+    MainMenu mm_Buttons;
+    Button StartButton{Window, Vector2{.2f, .2f}, Rectangle{0.f,0.f,128.f,64.f},
+                     mm_Buttons.Start,
+                     mm_Buttons.StartHovered,
+                     mm_Buttons.StartActive};
+    std::array<Button*, 3> MainMenu {&ButtonOne, &ButtonTwo, &StartButton};
+    std::array<std::array<Button*, 3>, 1> Buttons{MainMenu};
 
 
     // Start Game Loop
@@ -40,12 +50,12 @@ void Game::Initialize(Window& Window, int FPS, std::string Title)
 {
     assert(!GetWindowHandle());
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-    SetExitKey(0);
     InitWindow(Window.x, Window.y, Title.c_str());
     SetTargetFPS(144);
+    SetExitKey(0);
 }
 
-void Game::Tick(Window& Window, std::array<std::array<Button*, 2>, 1>& Buttons)
+void Game::Tick(Window& Window, std::array<std::array<Button*, 3>, 1>& Buttons)
 {
     // Check if Window has been resized or fullscreened
     Game::CheckScreenSizing(Window);
@@ -96,7 +106,7 @@ void Game::SetFullScreen(Window& Window)
 }
 
 template <typename T>
-void Game::Update(std::array<std::array<T*, 2>, 1>& Container)
+void Game::Update(std::array<std::array<T*, 3>, 1>& Container)
 {
     for (auto Set:Container) 
         for (auto Element:Set)
@@ -105,20 +115,36 @@ void Game::Update(std::array<std::array<T*, 2>, 1>& Container)
         }
 }
 
-void Game::Draw(std::array<std::array<Button*, 2>, 1>& Buttons)
+void Game::Draw(std::array<std::array<Button*, 3>, 1>& Buttons)
 {
     for (auto Set:Buttons)
         for (auto Button:Set)
         {
-            Button->Draw();
-            if (Button->isActivated())
+            if (Set == Buttons[0])
             {
-                DrawText(TextFormat("Button: \"I am active\" \n"), 20, 20, 20, WHITE);
-            }
-            else
-            {
-                DrawText(TextFormat("Button: \"I am inactive\" \n"), 20, 20, 20, WHITE);
+                if (Button == Set[0]) 
+                {
+                    Button->Draw();
+                    if (Button->isActivated())
+                    {
+                        DrawText(TextFormat("Button: \"I am active\" \n"), 20, 20, 20, WHITE);
+                    }
+                    else
+                    {
+                        DrawText(TextFormat("Button: \"I am inactive\" \n"), 20, 20, 20, WHITE);
+                    }
+                }
+                if (Button == Set[1])
+                {
+                    Button->Draw();
+                }
+                if (Button == Set[2])
+                {
+                    Button->Draw();
+                }
+
             }
         }
+    DrawFPS(100,100);
 }
 
